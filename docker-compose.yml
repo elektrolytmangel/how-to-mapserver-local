@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+  geo_mapserver:
+    image: camptocamp/mapserver:latest
+    ports:
+      - 80:80
+    volumes:
+      # should contain at least the mapserve.map file
+      - ./mapserver/mapfiles:/etc/mapserver/
+      # should contain the data server i.e. shp, geojson
+      - ./data/mapdata:/mapdata/

@@ -1,0 +1,10 @@
+**/bin
+**/include
+**/lib
+
+*.cfg
+.vscode
+**/Scripts
+.env
+**/__pycache__
+.DS_Store

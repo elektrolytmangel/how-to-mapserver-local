@@ -1,0 +1,80 @@
+MAP
+	EXTENT -180 -90 180 90
+	NAME "Example GeoService"
+	## WMS
+	IMAGETYPE PNG24
+	WEB
+		IMAGEPATH '/ms4w/tmp/ms_tmp/'
+		IMAGEURL '/ms_tmp/'
+		METADATA
+			## WMS
+			wms_title "WMS - serves AED data" ## REQUIRED
+			wms_abstract "Serves AED data from OSM."
+			wms_accessconstraints "public"
+			ows_enable_request "*"
+			wms_enable_request "*"
+			ows_srs "EPSG:4326" # EPSG:4269 EPSG:3978 EPSG:3857 EPSG:2056"
+			wms_srs "EPSG:4326"# EPSG:4269 EPSG:3978 EPSG:3857 EPSG:2056"
+			wms_getfeatureinfo_formatlist "text/plain,text/html,application/vnd.ogc.gml,gml,application/geojson,geojson"
+			## remove for test local with qgis
+			# wms_onlineresource "https://your-deplyoment-url.com/?map=/etc/mapserver/mapserver.map"
+			## WFS
+			wfs_title "WFS - serves AED data" ## REQUIRED
+			wfs_abstract "Serves AED data from OSM."
+			wfs_accessconstraints "public"
+			wfs_srs "EPSG:4326" # EPSG:4269 EPSG:3978 EPSG:3857 EPSG:2056"
+			wfs_enable_request "*" ## REQUIRED
+			wfs_getfeature_formatlist "text/plain,gml,text/html,application/geojson,geojson"
+			## remove for test local with qgis
+			# wfs_onlineresource "https://your-deplyoment-url.com//?map=/etc/mapserver/mapserver.map"
+		END
+	END
+	PROJECTION
+		"init=epsg:4326"
+	END	
+	OUTPUTFORMAT
+		NAME "geojson"
+		DRIVER "OGR/GEOJSON"
+		MIMETYPE "application/json; subtype=geojson"
+		FORMATOPTION "STORAGE=stream"
+		FORMATOPTION "FORM=SIMPLE"
+	END	
+	OUTPUTFORMAT
+		NAME "application/geojson"
+		DRIVER "OGR/GEOJSON"
+		MIMETYPE "application/geojson"
+		FORMATOPTION "STORAGE=stream"
+		FORMATOPTION "FORM=SIMPLE"
+	END	
+
+	## Layers
+	LAYER
+		NAME "AED"      	
+		TYPE POINT
+		STATUS ON
+		CONNECTIONTYPE OGR
+		CONNECTION "/mapdata/aed_swiss_geojson/aed_swiss.geojson"
+		DATA "aed_swiss"
+		TEMPLATE "/mapdata/mapitems/aed_wms_featureinfo.html"
+		METADATA
+			## for getfeatureinfo request (wms)
+			gml_geometries "aed"
+			gml_aed_type "point"
+		  wms_include_items "all"
+			## for wfs
+			gml_include_items "all"
+			gml_optional_items "all"
+			gml_exclude_items "@id" ## geojson can not handle properties with @ or :
+			gml_featureid "id" ## REQUIRED
+			gml_types "auto"
+		END
+		CLASS
+			NAME "AED"
+			STYLE
+				SYMBOL "/mapdata/mapitems/marker.png"
+				SIZE 24
+			END #style
+		END #class
+	END #layer
+
+END #map
