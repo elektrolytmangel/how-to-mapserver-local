@@ -13,11 +13,11 @@ How to setup and use mapserver with docker on a local machine
 1. Configure layers in a [mapserver].map under `mapserver/mapfiles` (or use the exmaple layers for AEDs)
 2. Add your data to `data/mapdata`
 3. Add item i.e. images for layers to `data/mapitems`
-4. Start the mapserver with `docker-compose up` (start docker desktop first)
+4. Open the cmd-line and start the mapserver with `docker-compose up` in the repos directory (start docker desktop first)
 
-This will download the camptocamp mapserver image from docker-hub and start the mapserver on you local machine.
+This will download the camptocamp mapserver image from docker-hub and start the mapserver on your local machine.
 To check if the services are available, just open the GetCapabilities-URL in your browser.
-If you call the url for the WMS you should see something like this:
+If you request the WMS, you should see something like this:
 ![AED WMS](./localhost.png "AED WMS-Layer")
 
 You are good to go, have fun!
